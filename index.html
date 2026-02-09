@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>graphlion - Turn Data Chaos into Connected Intelligence</title>
+    <title>Graphlion - Build Investigation Cases Faster</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,6 +17,7 @@
         :root {
             --bg-dark: #1B1B1B;
             --bg-darker: #141414;
+            --bg-card: rgba(252, 251, 248, 0.03);
             --text-light: #FCFBF8;
             --text-muted: rgba(252, 251, 248, 0.6);
             --accent-blue: #4B73FF;
@@ -24,6 +25,7 @@
             --accent-pink: #FF7EB0;
             --accent-coral: #FF8E63;
             --accent-magenta: #FF66F4;
+            --border-color: rgba(252, 251, 248, 0.08);
         }
 
         body {
@@ -53,25 +55,39 @@
         .container {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            pointer-events: none;
+        }
+
+        .container nav,
+        .container a,
+        .container button,
+        .container .step,
+        .container .problem-card,
+        .container footer {
+            pointer-events: auto;
         }
 
         /* Navigation */
         nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 4rem;
-            backdrop-filter: blur(10px);
-            background: rgba(27, 27, 27, 0.5);
+            padding: 1rem 4rem;
+            backdrop-filter: blur(20px);
+            background: rgba(27, 27, 27, 0.7);
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        nav.hidden {
+            transform: translateY(-100%);
         }
 
         .logo {
-            position: fixed;
-            top: 1.5rem;
-            left: 2rem;
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.5rem;
             font-weight: 700;
@@ -79,11 +95,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            z-index: 10;
-        }
-
-        .logo::before {
-            content: '';
         }
 
         .nav-links {
@@ -97,70 +108,53 @@
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-coral), var(--accent-pink));
+            transition: width 0.3s;
         }
 
         .nav-links a:hover {
             color: var(--text-light);
         }
 
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
         .nav-cta {
             font-family: 'JetBrains Mono', monospace;
             padding: 0.6rem 1.5rem;
-            background: transparent;
-            border: 1px solid var(--accent-blue);
-            border-radius: 4px;
-            color: var(--accent-blue);
-            font-weight: 500;
+            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink));
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
             text-decoration: none;
         }
 
-        .nav-cta::before {
-            content: '$ ';
-            opacity: 0.6;
-        }
-
         .nav-cta:hover {
-            background: var(--accent-blue);
-            color: var(--bg-dark);
-            box-shadow: 0 0 20px rgba(75, 115, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 126, 176, 0.4);
         }
 
-        /* Hero Section */
-        .hero {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .hero-badge {
-            font-family: 'JetBrains Mono', monospace;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 0.8rem;
-            background: rgba(75, 115, 255, 0.1);
-            border: 1px solid rgba(75, 115, 255, 0.3);
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: var(--accent-coral);
-            margin-bottom: 2rem;
-            letter-spacing: 0.05em;
-        }
-
-        .hero-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--accent-coral);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes pulse {
@@ -168,13 +162,20 @@
             50% { opacity: 0.4; box-shadow: none; }
         }
 
-        h1 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            line-height: 1.2;
-            max-width: 1100px;
-            margin-bottom: 1.5rem;
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .gradient-text {
@@ -182,141 +183,180 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradient-shift 3s ease infinite;
+            animation: gradient-shift 5s ease infinite;
             background-size: 200% 200%;
         }
 
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            max-width: 900px;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards 0.4s;
         }
 
         .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-light);
-            max-width: 800px;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            text-align: center;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards 0.6s;
         }
 
-        .hero-subtitle::before {
-            content: '';
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards 0.8s;
         }
 
-        .subtitle-secondary {
-            display: block;
-            margin-top: 0.75rem;
-        }
-
-        .typing-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.2em;
-            background: var(--accent-pink);
-            margin-left: 4px;
-            animation: blink 1s step-end infinite;
-            vertical-align: text-bottom;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .btn-contact {
+        .btn-primary {
             font-family: 'JetBrains Mono', monospace;
-            position: relative;
-            padding: 1.2rem 3rem;
-            background: linear-gradient(135deg, rgba(255, 126, 176, 0.1), rgba(75, 115, 255, 0.1));
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink));
             border: none;
             border-radius: 8px;
-            color: var(--text-light);
-            font-size: 1.1rem;
+            color: white;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s, box-shadow 0.2s;
             text-decoration: none;
-            margin-top: 2rem;
-            overflow: hidden;
-            z-index: 1;
+            display: inline-block;
         }
 
-        .btn-contact::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink), var(--accent-blue));
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(255, 126, 176, 0.4);
+        }
+
+        .btn-secondary {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 2px;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            z-index: -1;
-        }
-
-        .btn-contact::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink), var(--accent-blue));
-            border-radius: 8px;
-            transform: translate(-50%, -50%);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: -1;
-            opacity: 0;
-        }
-
-        .btn-contact:hover {
             color: var(--text-light);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow:
-                0 8px 24px rgba(255, 126, 176, 0.15),
-                0 0 40px rgba(75, 115, 255, 0.1);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .btn-contact:hover::after {
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-3px);
+            background: rgba(75, 115, 255, 0.1);
         }
 
-        .btn-contact:active {
-            transform: translateY(-2px) scale(0.98);
-        }
-
-        /* Features Section */
-        .features {
+        /* Problem Section */
+        .problem {
             padding: 6rem 4rem;
             background: linear-gradient(180deg, transparent, rgba(20, 20, 20, 0.8));
         }
 
-        .features-grid {
+        .problem-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-coral);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .problem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            padding: 1.5rem;
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .problem-card h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-pink);
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 6rem 4rem;
+        }
+
+        .how-it-works-container {
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        .feature-card {
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
             padding: 2rem;
-            background: rgba(20, 20, 20, 0.8);
-            border: 1px solid rgba(75, 115, 255, 0.2);
+            background: rgba(27, 27, 27, 0.8);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            transition: all 0.3s;
             position: relative;
+            transition: all 0.3s;
             overflow: hidden;
         }
 
-        .feature-card::before {
+        .step::before {
             content: '';
             position: absolute;
             top: 0;
@@ -328,89 +368,154 @@
             transition: transform 0.3s;
         }
 
-        .feature-card:hover {
+        .step:hover {
             transform: translateY(-4px);
             border-color: rgba(75, 115, 255, 0.5);
             box-shadow: 0 0 30px rgba(75, 115, 255, 0.15);
         }
 
-        .feature-card:hover::before {
+        .step:hover::before {
             transform: scaleX(1);
         }
 
-        .feature-icon {
+        .step-number {
             font-family: 'JetBrains Mono', monospace;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: 1px solid var(--accent-blue);
-            border-radius: 4px;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            color: var(--accent-blue);
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1;
         }
 
-        .feature-card h3 {
+        .step h3 {
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.1rem;
             margin-bottom: 0.75rem;
-            color: var(--accent-pink);
         }
 
-        .feature-card h3::before {
-            content: '';
-        }
-
-        .feature-card p {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+        .step p {
+            font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.7;
         }
 
-        .feature-card p::before {
+        /* CTA Section */
+        .cta {
+            padding: 8rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta::before {
             content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(75, 115, 255, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            position: relative;
+        }
+
+        .cta p {
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
         }
 
         /* Footer */
         footer {
-            padding: 2rem 4rem;
-            border-top: 1px solid rgba(252, 251, 248, 0.08);
+            padding: 3rem 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .footer-column h4 {
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--text-light);
+        }
+
+        .footer-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        footer p {
+        .footer-bottom p {
             font-family: 'JetBrains Mono', monospace;
             color: var(--text-muted);
             font-size: 0.8rem;
         }
 
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-links a {
-            font-family: 'JetBrains Mono', monospace;
+        .footer-bottom a {
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.8rem;
             transition: color 0.2s;
         }
 
-        .footer-links a::before {
-            content: './';
-            opacity: 0.5;
-        }
-
-        .footer-links a:hover {
+        .footer-bottom a:hover {
             color: var(--text-light);
         }
 
@@ -425,16 +530,27 @@
             }
 
             .hero {
-                padding: 5rem 1.5rem 3rem;
+                padding: 6rem 1.5rem 3rem;
             }
 
-            .features {
+            .problem,
+            .how-it-works,
+            .cta {
                 padding: 4rem 1.5rem;
             }
 
             footer {
-                padding: 1.5rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
                 flex-direction: column;
+                gap: 1rem;
                 text-align: center;
             }
         }
@@ -444,42 +560,103 @@
     <canvas id="graph-canvas"></canvas>
 
     <div class="container">
-        <div class="logo">graphlion:</div>
+        <!-- Navigation -->
+        <nav id="navbar">
+            <div class="logo">graphlion:</div>
+            <ul class="nav-links">
+            </ul>
+            <a href="mailto:hello@graphlion.com" class="nav-cta">Get a Demo</a>
+        </nav>
 
-        <main class="hero">
+        <!-- Hero Section -->
+        <section class="hero">
             <h1>
-                Turn Data Chaos into<br>
-                <span class="gradient-text">Connected Intelligence at Scale</span>
+                Turn Evidence Chaos into<br>
+                <span class="gradient-text">Connected Intelligence</span>
             </h1>
             <p class="hero-subtitle">
-                <span class="gradient-text">graphlion:</span> connects your data into navigable multimodal knowledge graphs and provides graph search agents for complex analysis            </p>
-            <a href="mailto:hello@graphlion.com" class="btn-contact">Request a Demo</a>
-        </main>
+                <span class="gradient-text">graphlion:</span> takes every document in your case, finds the connections that matter, and delivers answers that span your entire evidence base.
+            </p>
+            <div class="hero-buttons">
+                <a href="mailto:hello@graphlion.com" class="btn-primary">Request a Demo</a>
+            </div>
+        </section>
 
-        <section class="features" id="features">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">&#x1F5C4;</div>
-                    <h3>Ingest Everything</h3>
-                    <p>PDFs, scans, images, docs. Any format, any scale. We read it all and discover the structure hiding inside.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">&#x1F50D;</div>
-                    <h3>Connect the Dots</h3>
-                    <p>Cross-document analysis that finds what no single search can. Get answers that span your entire knowledge base.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">&#x1F6E1;</div>
-                    <h3>Verified, Not Hallucinated</h3>
-                    <p>Every answer traceable to its source. Built for decisions that can't afford to be wrong.</p>
+        <!-- Problem Section -->
+        <section class="problem reveal" id="problem">
+            <div class="problem-container">
+                <div class="section-label">The Problem</div>
+                <h2 class="section-title">Cases take months. Evidence is everywhere. Connections are invisible.</h2>
+                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-top: 1.5rem;">Thousands of documents. Facts buried across filings, emails, and databases. Current tools weren't built for this.</p>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works reveal" id="how-it-works">
+            <div class="how-it-works-container">
+                <div class="section-label" style="text-align:center;">How It Works</div>
+                <h2 class="section-title" style="text-align:center;">From raw evidence to defensible case</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">01</div>
+                        <h3>Ingest everything</h3>
+                        <p>PDFs, emails, filings, spreadsheets, scans. Any format, any volume.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">02</div>
+                        <h3>Map the connections</h3>
+                        <p>People, companies, and timelines linked and structured around your case.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">03</div>
+                        <h3>Get answers</h3>
+                        <p>Ask a question. Get an answer traced to its source, across your entire case.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- CTA Section -->
+        <section class="cta reveal">
+            <h2 class="section-title">
+                Ready to build cases<br><span class="gradient-text">faster?</span>
+            </h2>
+            <div class="cta-buttons">
+                <a href="mailto:hello@graphlion.com" class="btn-primary">Request a Demo</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">graphlion:</div>
+                    <p>Investigative intelligence software. Build and defend cases faster, with every answer traced to its source.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="mailto:hello@graphlion.com">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Graphlion. All rights reserved.</p>
+                <a href="mailto:hello@graphlion.com">hello@graphlion.com</a>
+            </div>
+        </footer>
     </div>
 
     <script>
+        // ============================================
         // Animated Graph Background
+        // ============================================
         const canvas = document.getElementById('graph-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -487,6 +664,20 @@
         let nodes = [];
         let edges = [];
         let mouse = { x: null, y: null };
+
+        // Interactive graph state
+        let userNodes = [];
+        let userEdges = [];
+        let pulseWaves = [];
+        let particles = [];
+        let draggingNode = null;
+        let dragOffset = { x: 0, y: 0 };
+        let dragVelocity = { x: 0, y: 0 };
+        let lastDragPos = { x: 0, y: 0 };
+        let mouseDownTime = 0;
+        let mouseDownPos = { x: 0, y: 0 };
+        let easterEggTriggered = false;
+        const originalTitle = document.title;
 
         const colors = {
             node: ['#4B73FF', '#FF7EB0', '#FF8E63', '#FF66F4'],
@@ -497,6 +688,11 @@
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             initNodes();
+            // Clamp user nodes to new bounds
+            for (const node of userNodes) {
+                node.x = Math.max(node.radius, Math.min(width - node.radius, node.x));
+                node.y = Math.max(node.radius, Math.min(height - node.radius, node.y));
+            }
         }
 
         function initNodes() {
@@ -541,12 +737,10 @@
                 node.x += node.vx;
                 node.y += node.vy;
 
-                // Bounce off edges
                 if (node.x < 0 || node.x > width) node.vx *= -1;
                 if (node.y < 0 || node.y > height) node.vy *= -1;
 
-                // Mouse interaction
-                if (mouse.x && mouse.y) {
+                if (mouse.x && mouse.y && !draggingNode) {
                     const dx = node.x - mouse.x;
                     const dy = node.y - mouse.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
@@ -558,11 +752,21 @@
                     }
                 }
 
-                // Damping
+                // Ambient nodes attracted to user nodes
+                for (const uNode of userNodes) {
+                    const dx = uNode.x - node.x;
+                    const dy = uNode.y - node.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 200 && dist > 20) {
+                        const force = (200 - dist) / 200 * 0.03;
+                        node.vx += (dx / dist) * force;
+                        node.vy += (dy / dist) * force;
+                    }
+                }
+
                 node.vx *= 0.99;
                 node.vy *= 0.99;
 
-                // Keep minimum velocity
                 const speed = Math.sqrt(node.vx * node.vx + node.vy * node.vy);
                 if (speed < 0.1) {
                     node.vx += (Math.random() - 0.5) * 0.2;
@@ -571,12 +775,13 @@
             }
 
             updateEdges();
+            updateUserGraph();
         }
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
 
-            // Draw edges
+            // Ambient edges
             for (const edge of edges) {
                 ctx.beginPath();
                 ctx.moveTo(edge.from.x, edge.from.y);
@@ -586,14 +791,13 @@
                 ctx.stroke();
             }
 
-            // Draw nodes
+            // Ambient nodes
             for (const node of nodes) {
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
                 ctx.fillStyle = node.color;
                 ctx.fill();
 
-                // Glow effect
                 const gradient = ctx.createRadialGradient(
                     node.x, node.y, 0,
                     node.x, node.y, node.radius * 3
@@ -605,6 +809,87 @@
                 ctx.fillStyle = gradient;
                 ctx.fill();
             }
+
+            // Pulse waves
+            for (const wave of pulseWaves) {
+                ctx.beginPath();
+                ctx.arc(wave.x, wave.y, wave.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(255, 142, 99, ${wave.opacity})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            // User edges with gradient
+            for (const edge of userEdges) {
+                const gradient = ctx.createLinearGradient(
+                    edge.from.x, edge.from.y,
+                    edge.to.x, edge.to.y
+                );
+                const alpha = edge.pulseAlpha !== undefined ? Math.min(1, 0.6 + edge.pulseAlpha) : 0.6;
+                gradient.addColorStop(0, edge.from.color);
+                gradient.addColorStop(1, edge.to.color);
+                ctx.beginPath();
+                ctx.moveTo(edge.from.x, edge.from.y);
+                ctx.lineTo(edge.to.x, edge.to.y);
+                ctx.strokeStyle = gradient;
+                ctx.globalAlpha = alpha;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+
+                // Glow on new connection
+                if (edge.pulseAlpha && edge.pulseAlpha > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(edge.from.x, edge.from.y);
+                    ctx.lineTo(edge.to.x, edge.to.y);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${edge.pulseAlpha * 0.4})`;
+                    ctx.lineWidth = 6;
+                    ctx.stroke();
+                }
+            }
+
+            // User nodes
+            for (const node of userNodes) {
+                const r = node.radius * (node.scaleAnim || 1);
+
+                // Outer glow
+                const glow = ctx.createRadialGradient(
+                    node.x, node.y, 0,
+                    node.x, node.y, r * 5
+                );
+                glow.addColorStop(0, node.color + '50');
+                glow.addColorStop(1, 'transparent');
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, r * 5, 0, Math.PI * 2);
+                ctx.fillStyle = glow;
+                ctx.fill();
+
+                // Node body
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+                ctx.fillStyle = node.color;
+                ctx.fill();
+
+                // Inner highlight
+                const inner = ctx.createRadialGradient(
+                    node.x - r * 0.3, node.y - r * 0.3, 0,
+                    node.x, node.y, r
+                );
+                inner.addColorStop(0, 'rgba(255,255,255,0.3)');
+                inner.addColorStop(1, 'transparent');
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+                ctx.fillStyle = inner;
+                ctx.fill();
+            }
+
+            // Particles
+            for (const p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color.replace(')', `, ${p.life})`).replace('rgb', 'rgba');
+                ctx.fill();
+            }
         }
 
         function animate() {
@@ -613,7 +898,369 @@
             requestAnimationFrame(animate);
         }
 
-        // Event listeners
+        // ============================================
+        // Interactive Graph System (Easter Egg)
+        // ============================================
+
+        function dist(a, b) {
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function hexToRgb(hex) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function createUserNode(x, y) {
+            const color = colors.node[Math.floor(Math.random() * colors.node.length)];
+            const node = {
+                x, y,
+                vx: 0, vy: 0,
+                radius: Math.random() * 2 + 4,
+                color,
+                rgbColor: hexToRgb(color),
+                scaleAnim: 0.1,
+                id: Date.now() + Math.random()
+            };
+            userNodes.push(node);
+
+            // Spawn pulse wave
+            pulseWaves.push({ x, y, radius: 0, opacity: 0.5 });
+
+            // Push ambient nodes outward
+            for (const n of nodes) {
+                const d = dist(n, node);
+                if (d < 200 && d > 0) {
+                    const force = (200 - d) / 200 * 2;
+                    n.vx += ((n.x - x) / d) * force;
+                    n.vy += ((n.y - y) / d) * force;
+                }
+            }
+
+            // Auto-connect to nearby user nodes
+            checkAutoConnect(node);
+
+            // Easter egg
+            if (!easterEggTriggered && userNodes.length >= 10) {
+                easterEggTriggered = true;
+                document.title = "graphlion: you're building a graph";
+                setTimeout(() => { document.title = originalTitle; }, 3000);
+            }
+        }
+
+        function checkAutoConnect(node) {
+            for (const other of userNodes) {
+                if (other === node) continue;
+                const d = dist(node, other);
+                if (d < 120 && !edgeExists(node, other)) {
+                    const edge = { from: node, to: other, pulseAlpha: 1 };
+                    userEdges.push(edge);
+                    spawnEdgeParticles(node, other);
+                }
+            }
+        }
+
+        function edgeExists(a, b) {
+            return userEdges.some(e =>
+                (e.from === a && e.to === b) || (e.from === b && e.to === a)
+            );
+        }
+
+        function spawnEdgeParticles(a, b) {
+            const count = 5 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < count; i++) {
+                const t = Math.random();
+                const px = a.x + (b.x - a.x) * t;
+                const py = a.y + (b.y - a.y) * t;
+                const angle = Math.atan2(b.y - a.y, b.x - a.x) + (Math.random() - 0.5) * 1.5;
+                const speed = 1 + Math.random() * 2;
+                particles.push({
+                    x: px, y: py,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    radius: 1.5 + Math.random(),
+                    life: 1,
+                    decay: 0.02 + Math.random() * 0.02,
+                    color: Math.random() > 0.5 ? a.rgbColor : b.rgbColor
+                });
+            }
+        }
+
+        function spawnBurstParticles(node) {
+            const count = 12;
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 / count) * i + Math.random() * 0.3;
+                const speed = 2 + Math.random() * 3;
+                particles.push({
+                    x: node.x, y: node.y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    radius: 2 + Math.random(),
+                    life: 1,
+                    decay: 0.03 + Math.random() * 0.02,
+                    color: node.rgbColor
+                });
+            }
+        }
+
+        function removeUserNode(node) {
+            spawnBurstParticles(node);
+            userEdges = userEdges.filter(e => e.from !== node && e.to !== node);
+            userNodes = userNodes.filter(n => n !== node);
+        }
+
+        function getConnectedCluster(node) {
+            const visited = new Set();
+            const queue = [node];
+            visited.add(node);
+            while (queue.length > 0) {
+                const current = queue.shift();
+                for (const edge of userEdges) {
+                    let neighbor = null;
+                    if (edge.from === current) neighbor = edge.to;
+                    else if (edge.to === current) neighbor = edge.from;
+                    if (neighbor && !visited.has(neighbor)) {
+                        visited.add(neighbor);
+                        queue.push(neighbor);
+                    }
+                }
+            }
+            return visited;
+        }
+
+        function findUserNodeAt(x, y, threshold) {
+            for (const node of userNodes) {
+                if (dist({ x, y }, node) < threshold) return node;
+            }
+            return null;
+        }
+
+        function updateUserGraph() {
+            // Scale-in animation
+            for (const node of userNodes) {
+                if (node.scaleAnim < 1) {
+                    node.scaleAnim = Math.min(1, node.scaleAnim + 0.08);
+                }
+            }
+
+            // Physics for non-dragged user nodes
+            for (const node of userNodes) {
+                if (node === draggingNode) continue;
+
+                // Repulsion between user nodes
+                for (const other of userNodes) {
+                    if (other === node) continue;
+                    const d = dist(node, other);
+                    if (d < 80 && d > 0) {
+                        const force = (80 - d) / 80 * 0.5;
+                        node.vx += ((node.x - other.x) / d) * force;
+                        node.vy += ((node.y - other.y) / d) * force;
+                    }
+                }
+
+                // Spring forces on connected edges
+                for (const edge of userEdges) {
+                    let other = null;
+                    if (edge.from === node) other = edge.to;
+                    else if (edge.to === node) other = edge.from;
+                    if (!other) continue;
+
+                    const d = dist(node, other);
+                    if (d > 0) {
+                        const targetDist = 80;
+                        const force = (d - targetDist) * 0.01;
+                        node.vx += ((other.x - node.x) / d) * force;
+                        node.vy += ((other.y - node.y) / d) * force;
+                    }
+                }
+
+                node.x += node.vx;
+                node.y += node.vy;
+                node.vx *= 0.9;
+                node.vy *= 0.9;
+
+                // Keep in bounds
+                node.x = Math.max(node.radius, Math.min(width - node.radius, node.x));
+                node.y = Math.max(node.radius, Math.min(height - node.radius, node.y));
+            }
+
+            // Auto-connect check every frame
+            for (let i = 0; i < userNodes.length; i++) {
+                for (let j = i + 1; j < userNodes.length; j++) {
+                    const d = dist(userNodes[i], userNodes[j]);
+                    if (d < 120 && !edgeExists(userNodes[i], userNodes[j])) {
+                        const edge = { from: userNodes[i], to: userNodes[j], pulseAlpha: 1 };
+                        userEdges.push(edge);
+                        spawnEdgeParticles(userNodes[i], userNodes[j]);
+                    }
+                }
+            }
+
+            // Fade edge pulse
+            for (const edge of userEdges) {
+                if (edge.pulseAlpha > 0) {
+                    edge.pulseAlpha -= 0.02;
+                    if (edge.pulseAlpha < 0) edge.pulseAlpha = 0;
+                }
+            }
+
+            // Update pulse waves
+            for (let i = pulseWaves.length - 1; i >= 0; i--) {
+                const wave = pulseWaves[i];
+                wave.radius += 4;
+                wave.opacity -= 0.015;
+                if (wave.opacity <= 0) pulseWaves.splice(i, 1);
+            }
+
+            // Update particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.96;
+                p.vy *= 0.96;
+                p.life -= p.decay;
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+        }
+
+        // ============================================
+        // Interactive Graph Event Handlers
+        // ============================================
+
+        canvas.addEventListener('mousedown', (e) => {
+            mouseDownTime = Date.now();
+            mouseDownPos = { x: e.clientX, y: e.clientY };
+
+            const node = findUserNodeAt(e.clientX, e.clientY, 15);
+            if (node) {
+                draggingNode = node;
+                dragOffset.x = e.clientX - node.x;
+                dragOffset.y = e.clientY - node.y;
+                lastDragPos = { x: e.clientX, y: e.clientY };
+                dragVelocity = { x: 0, y: 0 };
+                e.preventDefault();
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (draggingNode) {
+                const newX = e.clientX - dragOffset.x;
+                const newY = e.clientY - dragOffset.y;
+
+                dragVelocity.x = newX - draggingNode.x;
+                dragVelocity.y = newY - draggingNode.y;
+
+                draggingNode.x = newX;
+                draggingNode.y = newY;
+                draggingNode.vx = 0;
+                draggingNode.vy = 0;
+
+                lastDragPos = { x: e.clientX, y: e.clientY };
+
+                // Check merge while dragging
+                for (const other of userNodes) {
+                    if (other === draggingNode) continue;
+                    const d = dist(draggingNode, other);
+                    if (d < 80 && !edgeExists(draggingNode, other)) {
+                        const edge = { from: draggingNode, to: other, pulseAlpha: 1 };
+                        userEdges.push(edge);
+                        spawnEdgeParticles(draggingNode, other);
+                    }
+                }
+            }
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            if (draggingNode) {
+                // Shake to scatter: if drag was fast, burst connected nodes
+                const speed = Math.sqrt(dragVelocity.x * dragVelocity.x + dragVelocity.y * dragVelocity.y);
+                if (speed > 5) {
+                    const cluster = getConnectedCluster(draggingNode);
+                    for (const node of cluster) {
+                        if (node === draggingNode) continue;
+                        node.vx += dragVelocity.x * 0.8;
+                        node.vy += dragVelocity.y * 0.8;
+                    }
+                }
+                draggingNode = null;
+            }
+        });
+
+        canvas.addEventListener('click', (e) => {
+            // Don't create node if we were dragging
+            const moved = Math.sqrt(
+                (e.clientX - mouseDownPos.x) ** 2 +
+                (e.clientY - mouseDownPos.y) ** 2
+            );
+            if (moved > 10) return;
+
+            // Don't create if clicking on a user node
+            if (findUserNodeAt(e.clientX, e.clientY, 15)) return;
+
+            createUserNode(e.clientX, e.clientY);
+        });
+
+        canvas.addEventListener('dblclick', (e) => {
+            const node = findUserNodeAt(e.clientX, e.clientY, 15);
+            if (node) {
+                removeUserNode(node);
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
+        // ============================================
+        // Navbar hide on scroll
+        // ============================================
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // ============================================
+        // Scroll reveal
+        // ============================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ============================================
+        // Smooth scroll for anchor links
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ============================================
+        // Init
+        // ============================================
         window.addEventListener('resize', resize);
 
         window.addEventListener('mousemove', (e) => {
@@ -626,7 +1273,6 @@
             mouse.y = null;
         });
 
-        // Initialize
         resize();
         animate();
     </script>
