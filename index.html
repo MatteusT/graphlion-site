@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.graphlion.com/">
-    <title>Graphlion - Build Investigation Cases Faster</title>
+    <title>graphlion — AI you can defend, for disclosure and investigations</title>
+    <meta name="description" content="graphlion reads the whole evidence base, shows exactly how it reached every answer, and carries the work through review, privilege and production.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -560,6 +561,154 @@
                 text-align: center;
             }
         }
+
+        /* ---- Added sections ---- */
+
+        .stage-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stage {
+            display: flex;
+            gap: 1.25rem;
+            padding: 1.75rem 1.5rem 1.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            align-items: baseline;
+        }
+
+        .stage-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            flex: none;
+            padding-top: 0.2rem;
+        }
+
+        .stage h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .stage p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            max-width: 46ch;
+        }
+
+        /* Defensibility — the one loud moment on the page */
+        .defence {
+            padding: 7rem 4rem;
+            background: linear-gradient(180deg, rgba(20, 20, 20, 0.9), transparent);
+        }
+
+        .defence-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .defence-lede {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 60ch;
+            margin-bottom: 3rem;
+        }
+
+        .ledger {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: rgba(20, 20, 20, 0.75);
+            overflow: hidden;
+        }
+
+        .ledger-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 1.5rem;
+            padding: 1.15rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            align-items: baseline;
+        }
+
+        .ledger-row:last-child { border-bottom: none; }
+
+        .ledger-key {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-coral);
+        }
+
+        .ledger-val {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .ledger-val strong {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Jurisdiction row */
+        .jurisdictions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .jur {
+            padding: 1.25rem 1.35rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: rgba(20, 20, 20, 0.5);
+        }
+
+        .jur .place {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .jur .artefact {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .aside-note {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 62ch;
+            margin-top: 2.5rem;
+            padding-left: 1.25rem;
+            border-left: 2px solid var(--accent-blue);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal, h1, .hero-subtitle, .hero-buttons {
+                animation: none !important;
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .gradient-text { animation: none; }
+        }
+
+        @media (max-width: 768px) {
+            .defence { padding: 4rem 1.5rem; }
+            .ledger-row { grid-template-columns: 1fr; gap: 0.35rem; }
+            .stage { padding-right: 0; }
+        }
     </style>
 </head>
 <body>
@@ -570,65 +719,185 @@
         <nav id="navbar">
             <div class="logo">graphlion:</div>
             <ul class="nav-links">
+                <li><a href="#workflow">How it works</a></li>
+                <li><a href="#defensibility">Defensibility</a></li>
+                <li><a href="#privilege">Privilege</a></li>
             </ul>
-            <a href="mailto:hello@graphlion.com" class="nav-cta">Get a Demo</a>
+            <a href="mailto:hello@graphlion.com" class="nav-cta">Get a demo</a>
         </nav>
 
-        <!-- Hero Section -->
+        <!-- Hero -->
         <section class="hero">
             <h1>
-                Turn Evidence Chaos into<br>
-                <span class="gradient-text">Connected Intelligence</span>
+                AI you can defend,<br>
+                wired into the work<br>
+                lawyers actually do.
             </h1>
             <p class="hero-subtitle">
-                <span class="gradient-text">graphlion:</span> takes every document in your case, finds the connections that matter, and delivers answers that span your entire evidence base.
+                graphlion reads the whole evidence base, shows exactly how it reached every
+                answer, and carries the matter through review, privilege and production.
             </p>
             <div class="hero-buttons">
-                <a href="mailto:hello@graphlion.com" class="btn-primary">Request a Demo</a>
+                <a href="mailto:hello@graphlion.com" class="btn-primary">Get a demo</a>
+                <a href="#defensibility" class="btn-secondary">See how it proves itself</a>
             </div>
         </section>
 
-        <!-- Problem Section -->
+        <!-- Problem -->
         <section class="problem reveal" id="problem">
             <div class="problem-container">
-                <div class="section-label">The Problem</div>
-                <h2 class="section-title">Cases take months. Evidence is everywhere. Connections are invisible.</h2>
-                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-top: 1.5rem;">Thousands of documents. Facts buried across filings, emails, and databases. Current tools weren't built for this.</p>
+                <h2 class="section-title">Getting an answer is the easy part now.</h2>
+                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-top: 1.5rem; max-width: 62ch; margin-left: auto; margin-right: auto;">
+                    Any model can read a document and tell you something plausible. None of them
+                    can tell you what they missed, why they decided what they decided, or hand you
+                    something that holds up when opposing counsel, a regulator or a judge pulls at
+                    it. That gap is where the risk sits — and it is the whole reason graphlion
+                    exists.
+                </p>
             </div>
         </section>
 
-        <!-- How It Works Section -->
-        <section class="how-it-works reveal" id="how-it-works">
+        <!-- Workflow -->
+        <section class="how-it-works reveal" id="workflow">
             <div class="how-it-works-container">
-                <div class="section-label" style="text-align:center;">How It Works</div>
-                <h2 class="section-title" style="text-align:center;">From raw evidence to defensible case</h2>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">01</div>
-                        <h3>Ingest everything</h3>
-                        <p>PDFs, emails, filings, spreadsheets, scans. Any format, any volume.</p>
+                <h2 class="section-title">One matter, start to finish</h2>
+                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
+                    Not a research tool bolted onto a review platform. The answers and the review
+                    machinery are the same product.
+                </p>
+                <div class="stage-list">
+                    <div class="stage">
+                        <div class="stage-num">01</div>
+                        <div>
+                            <h3>Ask</h3>
+                            <p>Put a question to the matter. graphlion plans the search, builds a
+                            working set and answers from it — with every source cited.</p>
+                        </div>
                     </div>
-                    <div class="step">
-                        <div class="step-number">02</div>
-                        <h3>Map the connections</h3>
-                        <p>People, companies, and timelines linked and structured around your case.</p>
+                    <div class="stage">
+                        <div class="stage-num">02</div>
+                        <div>
+                            <h3>Searches</h3>
+                            <p>Working sets are saved, named and reusable. Each one keeps the
+                            record of exactly how it was built.</p>
+                        </div>
                     </div>
-                    <div class="step">
-                        <div class="step-number">03</div>
-                        <h3>Get answers</h3>
-                        <p>Ask a question. Get an answer traced to its source, across your entire case.</p>
+                    <div class="stage">
+                        <div class="stage-num">03</div>
+                        <div>
+                            <h3>Review</h3>
+                            <p>Reviewers code batches for relevance, privilege and issues. The AI
+                            suggests, the lawyer decides, and every override is logged.</p>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-num">04</div>
+                        <div>
+                            <h3>Privilege</h3>
+                            <p>Produce, withhold or refer to the client — scoped to relevant
+                            documents only, with the basis recorded as you go.</p>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-num">05</div>
+                        <div>
+                            <h3>People and organisations</h3>
+                            <p>Aliases, misspellings and multiple addresses resolved to one
+                            person, with their whole chronology in one place.</p>
+                        </div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-num">06</div>
+                        <div>
+                            <h3>Produce</h3>
+                            <p>Export the production set and the methodology behind it, together.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
+        <!-- Defensibility -->
+        <section class="defence reveal" id="defensibility">
+            <div class="defence-container">
+                <h2 class="section-title">Every classification comes with its own audit</h2>
+                <p class="defence-lede">
+                    graphlion never shows a confidence score without a route to the evidence
+                    behind it. Open any AI decision and you get the same four things.
+                </p>
+
+                <div class="ledger">
+                    <div class="ledger-row">
+                        <div class="ledger-key">Elusion test</div>
+                        <div class="ledger-val">A sample drawn from outside the set, the misses
+                        found in it, and an <strong>estimated recall</strong> — so you know what
+                        the search didn't catch, not just what it did.</div>
+                    </div>
+                    <div class="ledger-row">
+                        <div class="ledger-key">Confidence</div>
+                        <div class="ledger-val">Banded, never a bare number, and always paired
+                        with the documents that produced it.</div>
+                    </div>
+                    <div class="ledger-row">
+                        <div class="ledger-key">Override history</div>
+                        <div class="ledger-val">Every human correction, and the
+                        <strong>reviewer-agreement rate</strong> that follows from them.</div>
+                    </div>
+                    <div class="ledger-row">
+                        <div class="ledger-key">The exact prompt</div>
+                        <div class="ledger-val">The instruction that was applied, and its version.
+                        No black box to explain away.</div>
+                    </div>
+                </div>
+
+                <p class="aside-note">
+                    All of it accumulates into a continuous methodology record — collection,
+                    search terms, de-duplication, AI seed, continuous active learning, QC,
+                    privilege, production. When someone asks how the exercise was run, it is one
+                    export rather than a fortnight of reconstruction.
+                </p>
+            </div>
+        </section>
+
+        <!-- Privilege -->
+        <section class="how-it-works reveal" id="privilege">
+            <div class="how-it-works-container">
+                <h2 class="section-title">Privilege knows where it is</h2>
+                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
+                    The same review produces the right artefact for the jurisdiction you're
+                    producing in.
+                </p>
+                <div class="jurisdictions">
+                    <div class="jur">
+                        <div class="place">United States</div>
+                        <div class="artefact">Privilege log</div>
+                    </div>
+                    <div class="jur">
+                        <div class="place">England &amp; Wales</div>
+                        <div class="artefact">Document schedule</div>
+                    </div>
+                    <div class="jur">
+                        <div class="place">Ireland</div>
+                        <div class="artefact">Privilege list</div>
+                    </div>
+                </div>
+                <p class="aside-note">
+                    Withheld documents keep their Bates numbers, and placeholder rows hold the
+                    sequence intact so the production doesn't break. The detail that normally
+                    lives in one senior person's head is built into the tool.
+                </p>
+            </div>
+        </section>
+
+        <!-- CTA -->
         <section class="cta reveal">
-            <h2 class="section-title">
-                Ready to build cases<br><span class="gradient-text">faster?</span>
-            </h2>
+            <h2 class="section-title">See it on your own matter</h2>
+            <p>
+                A short walkthrough on a real disclosure exercise — including the part where
+                graphlion tells you what it might have missed.
+            </p>
             <div class="cta-buttons">
-                <a href="mailto:hello@graphlion.com" class="btn-primary">Request a Demo</a>
+                <a href="mailto:hello@graphlion.com" class="btn-primary">Get a demo</a>
             </div>
         </section>
 
@@ -637,11 +906,12 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo">graphlion:</div>
-                    <p>Investigative intelligence software. Build and defend cases faster, with every answer traced to its source.</p>
+                    <p>Investigative intelligence for disclosure, investigations and subject
+                    access requests. Every answer traced to its source, every decision recorded.</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Graphlion. All rights reserved.</p>
+                <p>&copy; 2026 Graphlion. All rights reserved.</p>
                 <a href="mailto:hello@graphlion.com">hello@graphlion.com</a>
             </div>
         </footer>
