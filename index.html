@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.graphlion.com/">
-    <title>graphlion — AI you can defend, for disclosure and investigations</title>
+    <title>graphlion: AI you can defend, for disclosure and investigations</title>
     <meta name="description" content="graphlion reads the whole evidence base, shows exactly how it reached every answer, and carries the work through review, privilege and production.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -603,7 +603,7 @@
             max-width: 46ch;
         }
 
-        /* Defensibility — the one loud moment on the page */
+        /* Defensibility: the one loud moment on the page */
         .defence {
             padding: 7rem 4rem;
             background: linear-gradient(180deg, rgba(20, 20, 20, 0.9), transparent);
@@ -769,7 +769,7 @@
                     Any model can read a document and tell you something plausible. None of them
                     can tell you what they missed, why they decided what they decided, or hand you
                     something that holds up when opposing counsel, a regulator or a judge pulls at
-                    it. That gap is where the risk sits — and it is the whole reason graphlion
+                    it. That gap is where the risk sits, and it is the whole reason graphlion
                     exists.
                 </p>
             </div>
@@ -789,7 +789,7 @@
                         <div>
                             <h3>Ask</h3>
                             <p>Put a question to the matter. graphlion plans the search, builds a
-                            working set and answers from it — with every source cited.</p>
+                            working set and answers from it, with every source cited.</p>
                         </div>
                     </div>
                     <div class="stage">
@@ -812,7 +812,7 @@
                         <div class="stage-num">04</div>
                         <div>
                             <h3>Privilege</h3>
-                            <p>Produce, withhold or refer to the client — scoped to relevant
+                            <p>Produce, withhold or refer to the client, scoped to relevant
                             documents only, with the basis recorded as you go.</p>
                         </div>
                     </div>
@@ -848,8 +848,8 @@
                     <div class="ledger-row">
                         <div class="ledger-key">Elusion test</div>
                         <div class="ledger-val">A sample drawn from outside the set, the misses
-                        found in it, and an <strong>estimated recall</strong> — so you know what
-                        the search didn't catch, not just what it did.</div>
+                        found in it, and an <strong>estimated recall</strong>, so you know what
+                        the search did not catch, not just what it did.</div>
                     </div>
                     <div class="ledger-row">
                         <div class="ledger-key">Confidence</div>
@@ -869,7 +869,7 @@
                 </div>
 
                 <p class="aside-note">
-                    All of it accumulates into a continuous methodology record — collection,
+                    All of it accumulates into a continuous methodology record: collection,
                     search terms, de-duplication, AI seed, continuous active learning, QC,
                     privilege, production. When someone asks how the exercise was run, it is one
                     export rather than a fortnight of reconstruction.
@@ -882,7 +882,7 @@
             <div class="how-it-works-container">
                 <h2 class="section-title">Privilege knows where it is</h2>
                 <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
-                    The same review produces the right artefact for the jurisdiction you're
+                    The same review produces the right artefact for the jurisdiction you are
                     producing in.
                 </p>
                 <div class="jurisdictions">
@@ -901,7 +901,7 @@
                 </div>
                 <p class="aside-note">
                     Withheld documents keep their Bates numbers, and placeholder rows hold the
-                    sequence intact so the production doesn't break. The detail that normally
+                    sequence intact so the production does not break. The detail that normally
                     lives in one senior person's head is built into the tool.
                 </p>
             </div>
@@ -911,7 +911,7 @@
         <section class="cta reveal">
             <h2 class="section-title">See it on your own matter</h2>
             <p>
-                A short walkthrough on a real disclosure exercise — including the part where
+                A short walkthrough on a real disclosure exercise, including the part where
                 graphlion tells you what it might have missed.
             </p>
             <div class="cta-buttons">
@@ -1229,7 +1229,7 @@
             // Easter egg
             if (!easterEggTriggered && userNodes.length >= 10) {
                 easterEggTriggered = true;
-                document.title = "graphlion: you're building a graph";
+                document.title = "graphlion: you are building a graph";
                 setTimeout(() => { document.title = originalTitle; }, 3000);
             }
         }
@@ -1474,14 +1474,14 @@
         });
 
         canvas.addEventListener('click', (e) => {
-            // Don't create node if we were dragging
+            // Do not create node if we were dragging
             const moved = Math.sqrt(
                 (e.clientX - mouseDownPos.x) ** 2 +
                 (e.clientY - mouseDownPos.y) ** 2
             );
             if (moved > 10) return;
 
-            // Don't create if clicking on a user node
+            // Do not create if clicking on a user node
             if (findUserNodeAt(e.clientX, e.clientY, 15)) return;
 
             createUserNode(e.clientX, e.clientY);
