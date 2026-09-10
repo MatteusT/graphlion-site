@@ -195,7 +195,7 @@
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: 88vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -708,6 +708,24 @@
             .defence { padding: 4rem 1.5rem; }
             .ledger-row { grid-template-columns: 1fr; gap: 0.35rem; }
             .stage { padding-right: 0; }
+        }
+
+        /* ---- Readability over the animated canvas ---- */
+
+        .how-it-works,
+        .cta {
+            background: linear-gradient(180deg, rgba(16, 16, 16, 0.75), rgba(16, 16, 16, 0.92));
+        }
+
+        .defence {
+            background: linear-gradient(180deg, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.95));
+        }
+
+        .aside-note,
+        .jur {
+            background: rgba(16, 16, 16, 0.7);
+            padding: 1.1rem 1.35rem;
+            border-radius: 6px;
         }
     </style>
 </head>
