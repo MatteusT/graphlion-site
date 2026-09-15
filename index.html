@@ -8,7 +8,7 @@
     <meta name="description" content="graphlion reads the whole evidence base, shows exactly how it reached every answer, and carries the work through review, privilege and production.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after {
             margin: 0;
@@ -21,29 +21,31 @@
         }
 
         :root {
-            --bg-dark: #1B1B1B;
-            --bg-darker: #141414;
-            --bg-card: rgba(252, 251, 248, 0.03);
-            --text-light: #FCFBF8;
-            --text-muted: rgba(252, 251, 248, 0.6);
-            --accent-blue: #4B73FF;
-            --accent-orange: #FE7B02;
-            --accent-pink: #FF7EB0;
-            --accent-coral: #FF8E63;
-            --accent-magenta: #FF66F4;
-            --border-color: rgba(252, 251, 248, 0.08);
+            --page: #FFFFFF;
+            --text: #1D1F22;
+            --text-hover: #34373C;
+            --text-muted: #5A5D63;
+            --hairline: #E5E6E8;
+            --border-strong: #CDCFD3;
+            --wash: #F5F6F7;
+
+            /* Change marks only. Never buttons, never decoration. */
+            --ins: #1F4FA3;
+            --del: #B3261E;
+
+            --border-color: var(--hairline);
         }
 
         body {
-            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-light);
+            font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--page);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
         code, .mono {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
         }
 
         /* Graph Animation Background */
@@ -54,7 +56,6 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            opacity: 0.6;
         }
 
         /* Main Content */
@@ -84,7 +85,8 @@
             align-items: center;
             padding: 1rem 4rem;
             backdrop-filter: blur(20px);
-            background: rgba(27, 27, 27, 0.7);
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: 1px solid var(--hairline);
             z-index: 100;
             transition: transform 0.3s;
         }
@@ -94,13 +96,16 @@
         }
 
         .logo {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Newsreader', Georgia, serif;
             font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+
+        /* The one mark of insertion blue outside the headline */
+        .logo .dot {
+            color: var(--ins);
         }
 
         .nav-links {
@@ -123,13 +128,13 @@
             bottom: -4px;
             left: 0;
             width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-coral), var(--accent-pink));
+            height: 1px;
+            background: var(--text);
             transition: width 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--text-light);
+            color: var(--text);
         }
 
         .nav-links a:hover::after {
@@ -137,22 +142,21 @@
         }
 
         .nav-cta {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Hanken Grotesk', sans-serif;
             padding: 0.6rem 1.5rem;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink));
+            background: var(--text);
             border: none;
-            border-radius: 6px;
-            color: white;
+            border-radius: 4px;
+            color: #FFFFFF;
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: background 0.2s;
             text-decoration: none;
         }
 
         .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 126, 176, 0.4);
+            background: var(--text-hover);
         }
 
         /* Animations */
@@ -161,16 +165,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent-coral); }
-            50% { opacity: 0.4; box-shadow: none; }
-        }
-
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         .reveal {
@@ -182,15 +176,6 @@
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 5s ease infinite;
-            background-size: 200% 200%;
         }
 
         /* Hero Section */
@@ -205,9 +190,10 @@
         }
 
         h1 {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Newsreader', Georgia, serif;
             font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
+            font-weight: 400;
+            letter-spacing: -0.015em;
             line-height: 1.2;
             max-width: 900px;
             margin-bottom: 1.5rem;
@@ -227,6 +213,25 @@
             animation: fadeInUp 0.8s forwards 0.6s;
         }
 
+        /* Blackline change marks. The only red and blue in the copy. */
+        h1 del {
+            color: var(--del);
+            text-decoration-line: line-through;
+            text-decoration-color: var(--del);
+            text-decoration-thickness: 2px;
+            text-decoration-skip-ink: none;
+        }
+
+        h1 ins {
+            color: var(--ins);
+            text-decoration-line: underline;
+            text-decoration-style: double;
+            text-decoration-color: var(--ins);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.16em;
+            text-decoration-skip-ink: none;
+        }
+
         .hero-buttons {
             display: flex;
             gap: 1rem;
@@ -238,50 +243,47 @@
         }
 
         .btn-primary {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Hanken Grotesk', sans-serif;
             padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink));
+            background: var(--text);
             border: none;
-            border-radius: 8px;
-            color: white;
+            border-radius: 4px;
+            color: #FFFFFF;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: background 0.2s;
             text-decoration: none;
             display: inline-block;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 16px 40px rgba(255, 126, 176, 0.4);
+            background: var(--text-hover);
         }
 
         .btn-secondary {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Hanken Grotesk', sans-serif;
             padding: 1rem 2.5rem;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-light);
+            background: var(--page);
+            border: 1px solid var(--border-strong);
+            border-radius: 4px;
+            color: var(--text);
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: border-color 0.2s, background 0.2s;
             text-decoration: none;
             display: inline-block;
         }
 
         .btn-secondary:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-3px);
-            background: rgba(75, 115, 255, 0.1);
+            border-color: var(--text);
+            background: var(--wash);
         }
 
         /* Problem Section */
         .problem {
             padding: 6rem 4rem;
-            background: linear-gradient(180deg, transparent, rgba(20, 20, 20, 0.8));
         }
 
         .problem-container {
@@ -291,18 +293,19 @@
         }
 
         .section-label {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-size: 0.75rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--accent-coral);
+            color: var(--text-muted);
             margin-bottom: 1rem;
         }
 
         .section-title {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Newsreader', Georgia, serif;
             font-size: clamp(1.5rem, 3vw, 2.2rem);
-            font-weight: 700;
+            font-weight: 500;
+            letter-spacing: -0.01em;
             margin-bottom: 2rem;
             line-height: 1.3;
         }
@@ -316,16 +319,17 @@
 
         .problem-card {
             padding: 1.5rem;
-            background: rgba(20, 20, 20, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            background: var(--page);
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
             text-align: left;
         }
 
         .problem-card h4 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            color: var(--accent-pink);
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text);
             margin-bottom: 0.5rem;
         }
 
@@ -354,9 +358,9 @@
 
         .step {
             padding: 2rem;
-            background: rgba(27, 27, 27, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            background: var(--page);
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
             position: relative;
             transition: all 0.3s;
             overflow: hidden;
@@ -369,15 +373,13 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink), var(--accent-coral));
+            background: var(--text);
             transform: scaleX(0);
             transition: transform 0.3s;
         }
 
         .step:hover {
-            transform: translateY(-4px);
-            border-color: rgba(75, 115, 255, 0.5);
-            box-shadow: 0 0 30px rgba(75, 115, 255, 0.15);
+            border-color: var(--border-strong);
         }
 
         .step:hover::before {
@@ -385,20 +387,18 @@
         }
 
         .step-number {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-coral), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 400;
+            color: var(--text-muted);
             margin-bottom: 1rem;
             line-height: 1;
         }
 
         .step h3 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.15rem;
+            font-weight: 500;
             margin-bottom: 0.75rem;
         }
 
@@ -414,18 +414,6 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(75, 115, 255, 0.1), transparent 70%);
-            pointer-events: none;
         }
 
         .cta .section-title {
@@ -472,7 +460,7 @@
         }
 
         .footer-column h4 {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             margin-bottom: 1rem;
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -496,7 +484,7 @@
         }
 
         .footer-column a:hover {
-            color: var(--text-light);
+            color: var(--text);
         }
 
         .footer-bottom {
@@ -510,7 +498,7 @@
         }
 
         .footer-bottom p {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             color: var(--text-muted);
             font-size: 0.8rem;
         }
@@ -523,7 +511,7 @@
         }
 
         .footer-bottom a:hover {
-            color: var(--text-light);
+            color: var(--text);
         }
 
         /* Responsive */
@@ -581,19 +569,19 @@
         }
 
         .stage-num {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--accent-blue);
+            font-weight: 500;
+            color: var(--text-muted);
             flex: none;
             padding-top: 0.2rem;
         }
 
         .stage h3 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.15rem;
             margin-bottom: 0.4rem;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .stage p {
@@ -606,7 +594,6 @@
         /* Defensibility: the one loud moment on the page */
         .defence {
             padding: 7rem 4rem;
-            background: linear-gradient(180deg, rgba(20, 20, 20, 0.9), transparent);
         }
 
         .defence-container {
@@ -623,9 +610,9 @@
         }
 
         .ledger {
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background: rgba(20, 20, 20, 0.75);
+            border: 1px solid var(--border-strong);
+            border-radius: 6px;
+            background: var(--page);
             overflow: hidden;
         }
 
@@ -641,9 +628,10 @@
         .ledger-row:last-child { border-bottom: none; }
 
         .ledger-key {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-size: 0.8rem;
-            color: var(--accent-coral);
+            letter-spacing: 0.02em;
+            color: var(--text-muted);
         }
 
         .ledger-val {
@@ -653,7 +641,7 @@
         }
 
         .ledger-val strong {
-            color: var(--text-light);
+            color: var(--text);
             font-weight: 500;
         }
 
@@ -667,21 +655,22 @@
 
         .jur {
             padding: 1.25rem 1.35rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: rgba(20, 20, 20, 0.5);
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
+            background: var(--page);
         }
 
         .jur .place {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-size: 0.75rem;
             color: var(--text-muted);
             margin-bottom: 0.5rem;
         }
 
         .jur .artefact {
-            font-size: 1rem;
-            color: var(--text-light);
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.15rem;
+            color: var(--text);
         }
 
         .aside-note {
@@ -691,7 +680,7 @@
             max-width: 62ch;
             margin-top: 2.5rem;
             padding-left: 1.25rem;
-            border-left: 2px solid var(--accent-blue);
+            border-left: 1px solid var(--border-strong);
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -701,7 +690,6 @@
                 opacity: 1 !important;
                 transform: none !important;
             }
-            .gradient-text { animation: none; }
         }
 
         @media (max-width: 768px) {
@@ -710,20 +698,20 @@
             .stage { padding-right: 0; }
         }
 
-        /* ---- Readability over the animated canvas ---- */
+        /* ---- Readability over the animated canvas ----
+           Body copy sits on solid white; the graph stays behind the hero. */
 
+        .problem,
         .how-it-works,
-        .cta {
-            background: linear-gradient(180deg, rgba(16, 16, 16, 0.75), rgba(16, 16, 16, 0.92));
-        }
-
-        .defence {
-            background: linear-gradient(180deg, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.95));
+        .defence,
+        .cta,
+        footer {
+            background: var(--page);
         }
 
         .aside-note,
         .jur {
-            background: rgba(16, 16, 16, 0.7);
+            background: var(--page);
             padding: 1.1rem 1.35rem;
             border-radius: 6px;
         }
@@ -735,7 +723,7 @@
     <div class="container">
         <!-- Navigation -->
         <nav id="navbar">
-            <div class="logo">graphlion:</div>
+            <div class="logo">graphlion<span class="dot">.</span></div>
             <ul class="nav-links">
                 <li><a href="#workflow">How it works</a></li>
                 <li><a href="#defensibility">Defensibility</a></li>
@@ -746,8 +734,8 @@
 
         <!-- Hero -->
         <section class="hero">
-            <h1>
-                AI you can defend,<br>
+            <h1 aria-label="AI you can defend, wired into the work lawyers actually do.">
+                AI you can <del>trust</del> <ins>defend</ins>,<br>
                 wired into the work<br>
                 lawyers actually do.
             </h1>
@@ -923,7 +911,7 @@
         <footer>
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="logo">graphlion:</div>
+                    <div class="logo">graphlion<span class="dot">.</span></div>
                     <p>Investigative intelligence for disclosure, investigations and subject
                     access requests. Every answer traced to its source, every decision recorded.</p>
                 </div>
@@ -961,9 +949,11 @@
         let easterEggTriggered = false;
         const originalTitle = document.title;
 
+        // Blackline: the graph is a faint charcoal field. No colour, no glow.
+        const INK_RGB = '29, 31, 34';
         const colors = {
-            node: ['#4B73FF', '#FF7EB0', '#FF8E63', '#FF66F4'],
-            edge: 'rgba(75, 115, 255, 0.15)'
+            node: ['#1D1F22'],
+            edge: `rgba(${INK_RGB}, 0.10)`
         };
 
         function resize() {
@@ -1068,7 +1058,7 @@
                 ctx.beginPath();
                 ctx.moveTo(edge.from.x, edge.from.y);
                 ctx.lineTo(edge.to.x, edge.to.y);
-                ctx.strokeStyle = `rgba(75, 115, 255, ${edge.opacity * 0.3})`;
+                ctx.strokeStyle = `rgba(${INK_RGB}, ${edge.opacity * 0.12})`;
                 ctx.lineWidth = 1;
                 ctx.stroke();
             }
@@ -1077,18 +1067,7 @@
             for (const node of nodes) {
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-                ctx.fillStyle = node.color;
-                ctx.fill();
-
-                const gradient = ctx.createRadialGradient(
-                    node.x, node.y, 0,
-                    node.x, node.y, node.radius * 3
-                );
-                gradient.addColorStop(0, node.color + '40');
-                gradient.addColorStop(1, 'transparent');
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2);
-                ctx.fillStyle = gradient;
+                ctx.fillStyle = `rgba(${INK_RGB}, 0.15)`;
                 ctx.fill();
             }
 
@@ -1096,72 +1075,31 @@
             for (const wave of pulseWaves) {
                 ctx.beginPath();
                 ctx.arc(wave.x, wave.y, wave.radius, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(255, 142, 99, ${wave.opacity})`;
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = `rgba(${INK_RGB}, ${wave.opacity * 0.5})`;
+                ctx.lineWidth = 1;
                 ctx.stroke();
             }
 
-            // User edges with gradient
+            // User edges
             for (const edge of userEdges) {
-                const gradient = ctx.createLinearGradient(
-                    edge.from.x, edge.from.y,
-                    edge.to.x, edge.to.y
-                );
-                const alpha = edge.pulseAlpha !== undefined ? Math.min(1, 0.6 + edge.pulseAlpha) : 0.6;
-                gradient.addColorStop(0, edge.from.color);
-                gradient.addColorStop(1, edge.to.color);
+                const alpha = edge.pulseAlpha !== undefined
+                    ? Math.min(0.4, 0.22 + edge.pulseAlpha * 0.18)
+                    : 0.22;
                 ctx.beginPath();
                 ctx.moveTo(edge.from.x, edge.from.y);
                 ctx.lineTo(edge.to.x, edge.to.y);
-                ctx.strokeStyle = gradient;
-                ctx.globalAlpha = alpha;
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = `rgba(${INK_RGB}, ${alpha})`;
+                ctx.lineWidth = 1;
                 ctx.stroke();
-                ctx.globalAlpha = 1;
-
-                // Glow on new connection
-                if (edge.pulseAlpha && edge.pulseAlpha > 0) {
-                    ctx.beginPath();
-                    ctx.moveTo(edge.from.x, edge.from.y);
-                    ctx.lineTo(edge.to.x, edge.to.y);
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${edge.pulseAlpha * 0.4})`;
-                    ctx.lineWidth = 6;
-                    ctx.stroke();
-                }
             }
 
             // User nodes
             for (const node of userNodes) {
                 const r = node.radius * (node.scaleAnim || 1);
 
-                // Outer glow
-                const glow = ctx.createRadialGradient(
-                    node.x, node.y, 0,
-                    node.x, node.y, r * 5
-                );
-                glow.addColorStop(0, node.color + '50');
-                glow.addColorStop(1, 'transparent');
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, r * 5, 0, Math.PI * 2);
-                ctx.fillStyle = glow;
-                ctx.fill();
-
-                // Node body
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
-                ctx.fillStyle = node.color;
-                ctx.fill();
-
-                // Inner highlight
-                const inner = ctx.createRadialGradient(
-                    node.x - r * 0.3, node.y - r * 0.3, 0,
-                    node.x, node.y, r
-                );
-                inner.addColorStop(0, 'rgba(255,255,255,0.3)');
-                inner.addColorStop(1, 'transparent');
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
-                ctx.fillStyle = inner;
+                ctx.fillStyle = `rgba(${INK_RGB}, 0.32)`;
                 ctx.fill();
             }
 
@@ -1169,7 +1107,7 @@
             for (const p of particles) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = p.color.replace(')', `, ${p.life})`).replace('rgb', 'rgba');
+                ctx.fillStyle = p.color.replace(')', `, ${p.life * 0.35})`).replace('rgb', 'rgba');
                 ctx.fill();
             }
         }
