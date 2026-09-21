@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.graphlion.com/">
     <title>graphlion: AI you can defend, for disclosure and investigations</title>
-    <meta name="description" content="graphlion reads the whole evidence base, shows exactly how it reached every answer, and carries the work through review, privilege and production.">
+    <meta name="description" content="graphlion reads the whole evidence base, shows exactly how it reached every answer, and carries the matter from first question to a defensible answer.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -514,6 +514,14 @@
             color: var(--text);
         }
 
+        .footer-legal {
+            max-width: 1000px;
+            margin: 1rem auto 0;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav {
@@ -727,7 +735,7 @@
             <ul class="nav-links">
                 <li><a href="#workflow">How it works</a></li>
                 <li><a href="#defensibility">Defensibility</a></li>
-                <li><a href="#privilege">Privilege</a></li>
+                <li><a href="#obligations">Obligations</a></li>
             </ul>
             <a href="mailto:hello@graphlion.com" class="nav-cta">Get a demo</a>
         </nav>
@@ -740,8 +748,9 @@
                 lawyers actually do.
             </h1>
             <p class="hero-subtitle">
-                graphlion reads the whole evidence base, shows exactly how it reached every
-                answer, and carries the matter through review, privilege and production.
+                graphlion reads the whole evidence base behind a subject access request, a
+                disclosure request or an investigation, shows exactly how it reached every
+                answer, and carries the matter from first question to a defensible answer.
             </p>
             <div class="hero-buttons">
                 <a href="mailto:hello@graphlion.com" class="btn-primary">Get a demo</a>
@@ -766,10 +775,10 @@
         <!-- Workflow -->
         <section class="how-it-works reveal" id="workflow">
             <div class="how-it-works-container">
-                <h2 class="section-title">One matter, start to finish</h2>
+                <h2 class="section-title">One matter, four stages</h2>
                 <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
-                    Not a research tool bolted onto a review platform. The answers and the review
-                    machinery are the same product.
+                    Not a research tool bolted onto a review platform. Asking, searching,
+                    reviewing and resolving the people involved happen in one place, on one record.
                 </p>
                 <div class="stage-list">
                     <div class="stage">
@@ -792,31 +801,16 @@
                         <div class="stage-num">03</div>
                         <div>
                             <h3>Review</h3>
-                            <p>Reviewers code batches for relevance, privilege and issues. The AI
+                            <p>Reviewers code batches for relevance and issues. The AI
                             suggests, the lawyer decides, and every override is logged.</p>
                         </div>
                     </div>
                     <div class="stage">
                         <div class="stage-num">04</div>
                         <div>
-                            <h3>Privilege</h3>
-                            <p>Produce, withhold or refer to the client, scoped to relevant
-                            documents only, with the basis recorded as you go.</p>
-                        </div>
-                    </div>
-                    <div class="stage">
-                        <div class="stage-num">05</div>
-                        <div>
                             <h3>People and organisations</h3>
                             <p>Aliases, misspellings and multiple addresses resolved to one
                             person, with their whole chronology in one place.</p>
-                        </div>
-                    </div>
-                    <div class="stage">
-                        <div class="stage-num">06</div>
-                        <div>
-                            <h3>Produce</h3>
-                            <p>Export the production set and the methodology behind it, together.</p>
                         </div>
                     </div>
                 </div>
@@ -835,9 +829,10 @@
                 <div class="ledger">
                     <div class="ledger-row">
                         <div class="ledger-key">Elusion test</div>
-                        <div class="ledger-val">A sample drawn from outside the set, the misses
-                        found in it, and an <strong>estimated recall</strong>, so you know what
-                        the search did not catch, not just what it did.</div>
+                        <div class="ledger-val">A sample drawn from outside the set, and the misses
+                        found in it, reported as <strong>coverage over the corpus that was
+                        searched</strong>. It tells you what the search did not catch, not only
+                        what it did.</div>
                     </div>
                     <div class="ledger-row">
                         <div class="ledger-key">Confidence</div>
@@ -858,39 +853,30 @@
 
                 <p class="aside-note">
                     All of it accumulates into a continuous methodology record: collection,
-                    search terms, de-duplication, AI seed, continuous active learning, QC,
-                    privilege, production. When someone asks how the exercise was run, it is one
-                    export rather than a fortnight of reconstruction.
+                    search terms, de-duplication, AI seed, QC. When someone asks how the exercise
+                    was run, it is one export rather than a fortnight of reconstruction.
                 </p>
             </div>
         </section>
 
-        <!-- Privilege -->
-        <section class="how-it-works reveal" id="privilege">
+        <!-- Obligations -->
+        <section class="how-it-works reveal" id="obligations">
             <div class="how-it-works-container">
-                <h2 class="section-title">Privilege knows where it is</h2>
+                <h2 class="section-title">The obligation is to search well, and to show it</h2>
                 <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
-                    The same review produces the right artefact for the jurisdiction you are
-                    producing in.
+                    Organisations answering a subject access request, a disclosure request or an
+                    internal investigation carry a legal duty to run a search that is reasonable
+                    and proportionate, and to be able to justify it afterwards. The Data (Use and
+                    Access) Act put that standard on a statutory footing by inserting Article
+                    15(1A) into UK GDPR, and from 19 June 2026 section 164A of the Data
+                    Protection Act 2018 requires every controller to handle complaints about it
+                    directly, before the ICO ever sees them. There is no technology exemption. A
+                    machine ran the search, and the duty is unchanged.
                 </p>
-                <div class="jurisdictions">
-                    <div class="jur">
-                        <div class="place">United States</div>
-                        <div class="artefact">Privilege log</div>
-                    </div>
-                    <div class="jur">
-                        <div class="place">England &amp; Wales</div>
-                        <div class="artefact">Document schedule</div>
-                    </div>
-                    <div class="jur">
-                        <div class="place">Ireland</div>
-                        <div class="artefact">Privilege list</div>
-                    </div>
-                </div>
                 <p class="aside-note">
-                    Withheld documents keep their Bates numbers, and placeholder rows hold the
-                    sequence intact so the production does not break. The detail that normally
-                    lives in one senior person's head is built into the tool.
+                    graphlion is built for that standard. Every answer arrives with a record of
+                    what was searched, what was found, what was not, and how confident the
+                    system is in the difference.
                 </p>
             </div>
         </section>
@@ -920,6 +906,9 @@
                 <p>&copy; 2026 graphlion. All rights reserved.</p>
                 <a href="mailto:hello@graphlion.com">hello@graphlion.com</a>
             </div>
+            <p class="footer-legal">graphlion is a trading name of VAEDA LIMITED, registered in
+            England and Wales, company number 17236176. Registered office: 82a James Carter
+            Road, Mildenhall, Bury St. Edmunds, IP28 7DE.</p>
         </footer>
     </div>
 
