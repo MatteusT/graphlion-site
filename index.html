@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://www.graphlion.com/">
     <meta property="og:url" content="https://www.graphlion.com/">
-    <title>graphlion: AI you can defend, for disclosure and investigations</title>
-    <meta name="description" content="graphlion reads the whole evidence base, shows exactly how it reached every answer, and carries the matter from first question to a defensible answer.">
+    <title>graphlion: subject access requests, answered with the record behind them</title>
+    <meta name="description" content="graphlion answers subject access requests with you: the redacted response, and a record of what was searched and what the search did not reach.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -693,7 +693,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .reveal, h1, .hero-subtitle, .hero-buttons {
+            .reveal, h1, .hero-subtitle, .hero-buttons, .hero-kicker, .hero-status {
                 animation: none !important;
                 transition: none !important;
                 opacity: 1 !important;
@@ -724,6 +724,196 @@
             padding: 1.1rem 1.35rem;
             border-radius: 6px;
         }
+
+        /* ---- Subject access request page ---- */
+        section[id] {
+            scroll-margin-top: 5rem;
+        }
+
+        .hero-kicker {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards 0.2s;
+        }
+
+        .hero-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards 1s;
+        }
+
+        .body-copy {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            max-width: 62ch;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Strike-and-insert device, as in the original headline */
+        .blackline {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            margin-bottom: 2rem;
+        }
+
+        .blackline del {
+            color: var(--del);
+            text-decoration-line: line-through;
+            text-decoration-color: var(--del);
+            text-decoration-thickness: 2px;
+            text-decoration-skip-ink: none;
+        }
+
+        .blackline ins {
+            color: var(--ins);
+            text-decoration-line: underline;
+            text-decoration-style: double;
+            text-decoration-color: var(--ins);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.16em;
+            text-decoration-skip-ink: none;
+        }
+
+        .defence-lede + .defence-lede {
+            margin-top: -1.75rem;
+        }
+
+        .sub-heading {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1.25rem;
+        }
+
+        ul.ledger,
+        dl.ledger {
+            list-style: none;
+        }
+
+        .ledger-item {
+            display: block;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .ledger-q {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.05rem;
+            color: var(--text);
+        }
+
+        .qa .ledger-row {
+            grid-template-columns: 260px 1fr;
+        }
+
+        /* Who does what */
+        .roles {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border-strong);
+            background: var(--page);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .roles th,
+        .roles td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .roles thead th {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            background: var(--wash);
+        }
+
+        .roles tbody th {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text);
+            width: 20%;
+        }
+
+        .roles td {
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .qa .ledger-row { grid-template-columns: 1fr; }
+
+            .roles,
+            .roles tbody,
+            .roles tr,
+            .roles th,
+            .roles td {
+                display: block;
+                width: 100%;
+            }
+
+            .roles {
+                border: none;
+                background: transparent;
+            }
+
+            .roles thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+                white-space: nowrap;
+            }
+
+            .roles tr {
+                border: 1px solid var(--border-strong);
+                border-radius: 6px;
+                background: var(--page);
+                margin-bottom: 1rem;
+            }
+
+            .roles tbody th {
+                width: 100%;
+                padding: 1rem 1.25rem 0.5rem;
+                border-bottom: none;
+            }
+
+            .roles td {
+                padding: 0.5rem 1.25rem;
+                border-bottom: none;
+            }
+
+            .roles td:last-child {
+                padding-bottom: 1rem;
+            }
+
+            .roles td::before {
+                content: attr(data-label);
+                display: block;
+                font-family: 'IBM Plex Mono', ui-monospace, monospace;
+                font-size: 0.7rem;
+                letter-spacing: 0.08em;
+                    color: var(--text-muted);
+                margin-bottom: 0.2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -734,164 +924,230 @@
         <nav id="navbar">
             <div class="logo">graphlion<span class="dot">.</span></div>
             <ul class="nav-links">
-                <li><a href="#workflow">How it works</a></li>
-                <li><a href="#defensibility">Defensibility</a></li>
-                <li><a href="#obligations">Obligations</a></li>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#the-record">The record</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#questions">Questions</a></li>
             </ul>
-            <a href="mailto:hello@graphlion.com" class="nav-cta">Get a demo</a>
+            <a href="mailto:hello@graphlion.com?subject=Subject%20access%20request&amp;body=Number%20of%20mailboxes%3A%0AApproximate%20size%20in%20GB%3A%0AResponse%20due%3A%0A%0APlease%20do%20not%20include%20personal%20data%20in%20this%20email." class="nav-cta">Tell us about a request</a>
         </nav>
 
         <!-- Hero -->
         <section class="hero">
-            <h1 aria-label="AI you can defend, wired into the work lawyers actually do.">
-                AI you can <del>trust</del> <ins>defend</ins>,<br>
-                wired into the work<br>
-                lawyers actually do.
-            </h1>
+            <p class="hero-kicker">When a subject access request lands</p>
+            <h1>The response, and the record behind it.</h1>
             <p class="hero-subtitle">
-                graphlion reads the whole evidence base behind a subject access request, a
-                disclosure request or an investigation, shows exactly how it reached every
-                answer, and carries the matter from first question to a defensible answer.
+                You upload the mailboxes. You get back the redacted response, ready to send, and
+                a record of what was searched, what was left out and why, and a check of what the
+                search did not reach. A fixed price, agreed first. A person makes every decision.
             </p>
             <div class="hero-buttons">
-                <a href="mailto:hello@graphlion.com" class="btn-primary">Get a demo</a>
-                <a href="#defensibility" class="btn-secondary">See how it proves itself</a>
+                <a href="mailto:hello@graphlion.com?subject=Subject%20access%20request&amp;body=Number%20of%20mailboxes%3A%0AApproximate%20size%20in%20GB%3A%0AResponse%20due%3A%0A%0APlease%20do%20not%20include%20personal%20data%20in%20this%20email." class="btn-primary">Tell us about a request</a>
+                <a href="#record-pack" class="btn-secondary">See what you get back</a>
             </div>
+            <p class="hero-status">Working product, in testing with our first design partner.</p>
         </section>
 
-        <!-- Problem -->
+        <!-- The problem -->
         <section class="problem reveal" id="problem">
             <div class="problem-container">
-                <h2 class="section-title">Getting an answer is the easy part now.</h2>
-                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-top: 1.5rem; max-width: 62ch; margin-left: auto; margin-right: auto;">
-                    Any model can read a document and tell you something plausible. None of them
-                    can tell you what they missed, why they decided what they decided, or hand you
-                    something that holds up when opposing counsel, a regulator or a judge pulls at
-                    it. That gap is where the risk sits, and it is the whole reason graphlion
-                    exists.
+                <h2 class="section-title">The hard part is not the reading.</h2>
+                <p class="body-copy">
+                    Someone writes to an organisation and asks for everything it holds about them.
+                    A dismissed employee, a parent, a customer in a dispute. The organisation has
+                    one month to find it across email, shared drives and chat, and to hand it over
+                    with everything about other people taken out.
+                </p>
+                <p class="body-copy">
+                    That is days of reading, one document at a time. But the reading is not what
+                    goes wrong. What goes wrong is the redaction that lets another person's details
+                    through, and the moment the requester says something is missing and there is
+                    nothing to show that it is not.
                 </p>
             </div>
         </section>
 
-        <!-- Workflow -->
-        <section class="how-it-works reveal" id="workflow">
+        <!-- What you get back -->
+        <section class="how-it-works reveal" id="record-pack">
             <div class="how-it-works-container">
-                <h2 class="section-title">One matter, four stages</h2>
-                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
-                    Not a research tool bolted onto a review platform. Asking, searching,
-                    reviewing and resolving the people involved happen in one place, on one record.
-                </p>
+                <h2 class="section-title">What you get back</h2>
                 <div class="stage-list">
                     <div class="stage">
-                        <div class="stage-num">01</div>
                         <div>
-                            <h3>Ask</h3>
-                            <p>Put a question to the matter. graphlion plans the search, builds a
-                            working set and answers from it, with every source cited.</p>
+                            <h3>The response</h3>
+                            <p>The documents found for the request, with other people's information
+                            redacted and the redactions burned in, ready for you to send.</p>
                         </div>
                     </div>
                     <div class="stage">
-                        <div class="stage-num">02</div>
                         <div>
-                            <h3>Searches</h3>
-                            <p>Working sets are saved, named and reusable. Each one keeps the
-                            record of exactly how it was built.</p>
+                            <h3>The search record</h3>
+                            <p>What was searched and how, what was left out and why, and the
+                            decisions made along the way. One document you can put on the file.</p>
                         </div>
                     </div>
                     <div class="stage">
-                        <div class="stage-num">03</div>
                         <div>
-                            <h3>Review</h3>
-                            <p>Reviewers code batches for relevance and issues. The AI
-                            suggests, the lawyer decides, and every override is logged.</p>
-                        </div>
-                    </div>
-                    <div class="stage">
-                        <div class="stage-num">04</div>
-                        <div>
-                            <h3>People and organisations</h3>
-                            <p>Aliases, misspellings and multiple addresses resolved to one
-                            person, with their whole chronology in one place.</p>
+                            <h3>The missed-document check</h3>
+                            <p>A sample drawn from the documents the search did not return, read by
+                            a person, with the sample size stated. It is an estimate, not a
+                            guarantee. A small clean sample proves little, which is why the size is
+                            on the page.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Defensibility -->
-        <section class="defence reveal" id="defensibility">
-            <div class="defence-container">
-                <h2 class="section-title">Every classification comes with its own audit</h2>
-                <p class="defence-lede">
-                    graphlion never shows a confidence score without a route to the evidence
-                    behind it. Open any AI decision and you get the same four things.
-                </p>
-
-                <div class="ledger">
-                    <div class="ledger-row">
-                        <div class="ledger-key">Elusion test</div>
-                        <div class="ledger-val">A sample drawn from outside the set, and the misses
-                        found in it, reported with the sample size. It is an estimate of what the
-                        search did not catch, and a small clean sample is not proof that nothing
-                        was missed.</div>
-                    </div>
-                    <div class="ledger-row">
-                        <div class="ledger-key">Confidence</div>
-                        <div class="ledger-val">Banded, never a bare number, and always paired
-                        with the documents that produced it.</div>
-                    </div>
-                    <div class="ledger-row">
-                        <div class="ledger-key">Override history</div>
-                        <div class="ledger-val">Every human correction, and the
-                        <strong>reviewer-agreement rate</strong> that follows from them.</div>
-                    </div>
-                    <div class="ledger-row">
-                        <div class="ledger-key">The exact prompt</div>
-                        <div class="ledger-val">The instruction that was applied, and its version.
-                        No black box to explain away.</div>
-                    </div>
-                </div>
-
-                <p class="aside-note">
-                    All of it accumulates into a continuous methodology record: collection,
-                    search terms, de-duplication, AI seed, QC. When someone asks how the exercise
-                    was run, it is one export rather than a fortnight of reconstruction.
-                </p>
-            </div>
-        </section>
-
-        <!-- Obligations -->
-        <section class="how-it-works reveal" id="obligations">
+        <!-- How a request runs -->
+        <section class="how-it-works reveal" id="how-it-works">
             <div class="how-it-works-container">
-                <h2 class="section-title">The obligation is to search well, and to show it</h2>
-                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch;">
-                    Organisations answering a subject access request, a disclosure request or an
-                    internal investigation carry a legal duty to run a search that is reasonable
-                    and proportionate, and to be able to justify it afterwards. The Data (Use and
-                    Access) Act put that standard on a statutory footing by inserting Article
-                    15(1A) into UK GDPR, and from 19 June 2026 section 164A of the Data
-                    Protection Act 2018 requires every controller to run a complaints procedure
-                    and to acknowledge a complaint within 30 days. People keep the right to go to
-                    the ICO directly. There is no technology exemption. A
-                    machine ran the search, and the duty is unchanged.
+                <h2 class="section-title">How a request runs</h2>
+                <p class="defence-lede">graphlion proposes. A person decides. This is who does what.</p>
+                <table class="roles">
+                    <thead>
+                        <tr>
+                            <th scope="col">Step</th>
+                            <th scope="col">graphlion does</th>
+                            <th scope="col">You decide</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Intake</th>
+                            <td data-label="graphlion does">Numbers every document and sets duplicates aside without deleting them</td>
+                            <td data-label="You decide">How duplicates are treated</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">The person</th>
+                            <td data-label="graphlion does">Resolves the names, misspellings and addresses one person has used into one person</td>
+                            <td data-label="You decide">Whose a phone number or an address is, when graphlion is not certain</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Search</th>
+                            <td data-label="graphlion does">Plans the search, saves each working set and records how it was built</td>
+                            <td data-label="You decide">What the request covers</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Review</th>
+                            <td data-label="graphlion does">Suggests a coding for each document</td>
+                            <td data-label="You decide">Every coding decision. Each override is recorded</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Redact</th>
+                            <td data-label="graphlion does">Proposes what to redact, from who the information belongs to</td>
+                            <td data-label="You decide">What is redacted, and what is privileged</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Respond</th>
+                            <td data-label="graphlion does">Burns the redactions into the export and checks that nothing underneath can be recovered</td>
+                            <td data-label="You decide">What goes out, after seeing it as it will be sent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- The record -->
+        <section class="defence reveal" id="the-record">
+            <div class="defence-container">
+                <h2 class="section-title">Show what you searched. And what you did not.</h2>
+                <p class="blackline"><del>Trust us.</del> <ins>Here is the record.</ins></p>
+                <p class="defence-lede">
+                    Since the Data (Use and Access) Act 2025, the law says in terms that the search
+                    behind a subject access request has to be reasonable and proportionate. That is
+                    Article 15(1A) of the UK GDPR. It does not say what such a search looks like.
+                    If the search is challenged, it is the organisation that has to justify where
+                    it stopped.
                 </p>
-                <p class="aside-note">
-                    graphlion is built for that standard. Every answer arrives with a record of
-                    what was searched, what was found, what was not, and how confident the
-                    system is in the difference.
+                <p class="defence-lede">
+                    On 11 November 2026 the ICO published guidance on requests written with AI.
+                    Those requests are longer and broader, and they are still valid. The guidance
+                    says you should record your decision about the scope of the search: whether you
+                    asked the requester, what you included, what you left out, and why.
                 </p>
+                <p class="defence-lede">
+                    From 19 June 2026 every controller must also run a complaints procedure and
+                    acknowledge a complaint within 30 days. People keep the right to go to the ICO
+                    directly.
+                </p>
+                <h3 class="sub-heading">What graphlion writes down as the work happens</h3>
+                <ul class="ledger">
+                    <li class="ledger-row ledger-item">Every search, and how each working set was built</li>
+                    <li class="ledger-row ledger-item">Every coding decision, and every time a person overrode a suggestion</li>
+                    <li class="ledger-row ledger-item">The exact instruction given to the model, and its version</li>
+                    <li class="ledger-row ledger-item">Confidence in bands, always beside the documents behind it</li>
+                    <li class="ledger-row ledger-item">The missed-document check, with its sample size</li>
+                </ul>
+                <p class="aside-note">It comes out as one export, not a fortnight of reconstruction.</p>
+            </div>
+        </section>
+
+        <!-- The complaint -->
+        <section class="problem reveal" id="complaint">
+            <div class="problem-container">
+                <h2 class="section-title">When they say you missed something, you will have an answer.</h2>
+                <p class="body-copy">
+                    The ICO tells a requester who thinks something is missing to list what they
+                    believe you hold and to complain to you first. The search record is what you
+                    answer with: what was searched, what was left out and why, and what the check
+                    of the remainder found.
+                </p>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="how-it-works reveal" id="pricing">
+            <div class="how-it-works-container">
+                <h2 class="section-title">One request, one price.</h2>
+                <p class="defence-lede">A fixed price, agreed before we start. Never per question, and never per document read.</p>
+                <p class="defence-lede">Tell us how many mailboxes there are and roughly how much data, and we will reply with one price.</p>
+                <p class="aside-note">We run it with you, you make the decisions, and you keep everything we produce. We take a small number of requests at a time.</p>
+            </div>
+        </section>
+
+        <!-- Questions -->
+        <section class="how-it-works reveal" id="questions">
+            <div class="how-it-works-container">
+                <h2 class="section-title">Straight answers</h2>
+                <dl class="ledger qa">
+                    <div class="ledger-row">
+                        <dt class="ledger-q">Is it all AI?</dt>
+                        <dd class="ledger-val">No. graphlion proposes and a person decides. The table above shows who does what at each step.</dd>
+                    </div>
+                    <div class="ledger-row">
+                        <dt class="ledger-q">Who is it for?</dt>
+                        <dd class="ledger-val">Schools, employers and other organisations that have received a request, and the consultants and law firms who answer requests for them.</dd>
+                    </div>
+                    <div class="ledger-row">
+                        <dt class="ledger-q">Where is our data held?</dt>
+                        <dd class="ledger-val">In the European Union, in Ireland. If you need it held in the United Kingdom, tell us before we start.</dd>
+                    </div>
+                    <div class="ledger-row">
+                        <dt class="ledger-q">Are you certified to ISO 27001?</dt>
+                        <dd class="ledger-val">Not yet. We are a small company and we would rather say so.</dd>
+                    </div>
+                    <div class="ledger-row">
+                        <dt class="ledger-q">How far along are you?</dt>
+                        <dd class="ledger-val">Working product, in testing with our first design partner.</dd>
+                    </div>
+                    <div class="ledger-row">
+                        <dt class="ledger-q">Do you only do subject access requests?</dt>
+                        <dd class="ledger-val">They come first. We also take contained investigations.</dd>
+                    </div>
+                </dl>
             </div>
         </section>
 
         <!-- CTA -->
         <section class="cta reveal">
-            <h2 class="section-title">See it on your own matter</h2>
+            <h2 class="section-title">Tell us about the request. Not the data.</h2>
             <p>
-                A short walkthrough on a real disclosure exercise, including the part where
-                graphlion tells you what it might have missed.
+                Email us how many mailboxes there are, roughly how much data, and when the
+                response is due. Please do not send personal data by email.
             </p>
             <div class="cta-buttons">
-                <a href="mailto:hello@graphlion.com" class="btn-primary">Get a demo</a>
+                <a href="mailto:hello@graphlion.com?subject=Subject%20access%20request&amp;body=Number%20of%20mailboxes%3A%0AApproximate%20size%20in%20GB%3A%0AResponse%20due%3A%0A%0APlease%20do%20not%20include%20personal%20data%20in%20this%20email." class="btn-primary">Tell us about a request</a>
             </div>
         </section>
 
@@ -900,8 +1156,8 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo">graphlion<span class="dot">.</span></div>
-                    <p>Investigative intelligence for disclosure, investigations and subject
-                    access requests. Every answer traced to its source, every decision recorded.</p>
+                    <p>Subject access requests, answered with you. Every answer traced to its
+                    source, every decision recorded.</p>
                 </div>
             </div>
             <div class="footer-bottom">
